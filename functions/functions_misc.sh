@@ -52,3 +52,15 @@ function waitForScreenTermination()
         sleep 1
     done
 }
+
+function isScreenRunning()
+{
+    VARIABLE_SCREEN_NAME="$1"
+
+    if screen -list | grep -q $VARIABLE_SCREEN_NAME
+    then
+        echo "TRUE"
+    else
+        echo "FALSE"
+    fi
+}

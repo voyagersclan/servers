@@ -22,10 +22,19 @@ function server_start()
     then
         echo "Starting Server Back Up..."
 
-        screen -DmS $SCREEN_NAME /usr/bin/java -server -Xms512M \
+        #Remove Old Screen Log
+        rm -f $SCREEN_LOG
+
+        screen -L $SCREEN_LOG -DmS $SCREEN_NAME /usr/bin/java -server -Xms512M \
             -Xmx2048M -XX:+UseG1GC -XX:+CMSClassUnloadingEnabled \
             -XX:ParallelGCThreads=2 -XX:MinHeapFreeRatio=5 \
             -XX:MaxHeapFreeRatio=10 -jar minecraft_server.jar nogui & \
+
+        #Kill all currently running Tail processes
+        killall tail
+
+        #Resume Log Tail process
+        tail -n+1 -F $SCREEN_LOG &
 
     else
         sendCommandToScreen "$SCREEN_NAME" "save-on"
@@ -52,7 +61,7 @@ function main_minecraft_vanilla()
                 drive_sync_main
             fi
 
-            echo "Sleeping for 30 Seconds..."
+            #echo "Sleeping for 30 Seconds..."
             sleep 30
         done
     fi

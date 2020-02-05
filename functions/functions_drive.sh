@@ -29,7 +29,7 @@ function setupDrive()
             cd "$SERVER_DIRECTORY"
             drive pull -no-prompt -quiet server.tar.gz
             tar -xf server.tar.gz
-            rm $SERVER_DIRECTORY/*.tar
+            rm $SERVER_DIRECTORY/*.tar.gz
         fi
     fi
 }
@@ -63,9 +63,11 @@ function drive_sync_main()
     echo "Removing Old Server Tar..."
     rm -f $SERVER_DIRECTORY/server.tar.gz
     echo "Creating New Server Tar..."
-    tar -zcf $SERVER_DIRECTORY/server.tar.gz $SERVER_DIRECTORY/server
+    tar -zcf $SERVER_DIRECTORY/server.tar.gz server/
 
     server_start
+
+    cd "$SERVER_DIRECTORY"
 
     if [ "$GOOGLE_DRIVE_ENABLED" = "TRUE" ]
     then 
