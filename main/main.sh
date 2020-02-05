@@ -22,6 +22,9 @@ function main()
 {
     DO_WHILE_LOOP="$1"
 
+    #Remove Dead Screens
+    screen -wipe
+
     #echo "Sleeping for 45 seconds in case of user updates..."
     #sleep 30 
 
