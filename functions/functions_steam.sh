@@ -198,12 +198,15 @@ function steam_DoInitialLogin()
 
 function steam_StartServer()
 {
+    #Purposely not quoted for Arg Separation
     VARIABLE_EXTRA_ARGS="$1"
     
     cd $SERVER_DIRECTORY/server/
 
     #Remove Old Screen Log
     rm -f $SCREEN_LOG
+
+    echo "Starting Steam with the Following Arguments $VARIABLE_EXTRA_ARGS"
 
     screen -L $SCREEN_LOG -DmS $SCREEN_NAME ./srcds_run \
                                             -console \

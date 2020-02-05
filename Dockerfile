@@ -4,8 +4,10 @@ USER root
 
 #Install Misc Dependencies
 RUN apt-get update &&\
-    apt-get install -y curl git screen openjdk-8-jre-headless software-properties-common dirmngr apt-transport-https vim &&\ 
+    apt-get install -y curl git screen openjdk-8-jre-headless software-properties-common dirmngr apt-transport-https vim python3 python3-pip &&\ 
     apt-get clean all
+
+RUN  pip3 install requests
 
 #Install Google Drive Application
 RUN apt-add-repository 'deb http://shaggytwodope.github.io/repo ./' &&\

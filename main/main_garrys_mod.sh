@@ -13,7 +13,6 @@ function server_stop()
 
 function server_start()
 {
-    # resume autosaving on server
     echo "Starting Server Back Up..."
     main_process "FALSE"
 }
@@ -28,10 +27,10 @@ function main_garrys_mod()
     #Setup Mount Config
     steam_SetupMountConfig
 
-    VARIABLE_EXTRA_ARGS='-game $STEAM_NAME_ID +map gm_construct +maxplayers 10  +gamemode "terrortown" +host_workshop_collection 284752217'
+    VARIABLE_EXTRA_ARGS="-game $STEAM_NAME_ID +map gm_construct +maxplayers 10  +gamemode \"terrortown\" +host_workshop_collection 284752217"
 
     #Start Server
-    steam_StartServer $VARIABLE_EXTRA_ARGS
+    steam_StartServer "$VARIABLE_EXTRA_ARGS"
 
     if [ "$DO_WHILE_LOOP" = "TRUE" ]
     then 
@@ -43,7 +42,7 @@ function main_garrys_mod()
                 drive_sync_main
             fi
 
-            echo "Sleeping for 30 Seconds..."
+            #echo "Sleeping for 30 Seconds..."
             sleep 30
         done
     fi

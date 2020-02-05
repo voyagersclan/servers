@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function setupDrive()
 {
     VARIABLE_GOOGLE_DRIVE_ENABLED=$(promptFunction "[Google Drive] Enable Sync Functionality?")
@@ -37,18 +39,12 @@ function setupDrive()
 
 function server_stop()
 {
-    sendCommandToScreen "$SCREEN_NAME" " "
-    echo "Shutting Down Server..."
-    sendCommandToScreen "$SCREEN_NAME" "quit"
-
-    waitForScreenTermination "$SCREEN_NAME"
+    echo "[Drive][ERROR] If you are seeing this message the server_stop function has not been implemented on one of the main_servername.sh scripts"
 }
 
 function server_start()
 {
-    # resume autosaving on server
-    echo "Starting Server Back Up..."
-    main_process "FALSE"
+    echo "[Drive][ERROR] If you are seeing this message the server_start function has not been implemented on one of the main_servername.sh scripts"
 }
 
 function drive_sync_main()

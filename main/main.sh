@@ -4,6 +4,7 @@
 source ~/.functions/functions_drive.sh
 source ~/.functions/functions_misc.sh
 source ~/.functions/functions_steam.sh
+source ~/.functions/functions_minecraft.sh
 
 #Do Not Modify, any changes that are needed to be made should be 
 #done under build.sh these are not to be changed

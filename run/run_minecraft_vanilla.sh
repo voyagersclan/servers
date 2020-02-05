@@ -2,7 +2,7 @@
 
 CONTAINER_NAME="minecraft_vanilla"
 IMAGE_NAME="voyagers:minecraft_vanilla"
-STEAM_PORT_MAPPING="25566:25566"
+STEAM_PORT_MAPPING="25565:25565"
 
 #docker kill $CONTAINER_NAME
 #docker stop $CONTAINER_NAME

@@ -4,23 +4,24 @@
 
 function server_stop()
 {
-    echo "Turning Saving Off..."
+    echo "Stopping Server..."
     sendCommandToScreen "$SCREEN_NAME" " "
-    sendCommandToScreen "$SCREEN_NAME" "save-off"
-    sendCommandToScreen "$SCREEN_NAME" "save-all"
+    sendCommandToScreen "$SCREEN_NAME" "stop"
+    waitForScreenTermination "$SCREEN_NAME"
 }
 
 function server_start()
 {
-    # resume autosaving on server
-
     cd "$SERVER_DIRECTORY/server"
 
     FRESH_START=$(isScreenRunning "$SCREEN_NAME")
 
     if [ "$FRESH_START" = "FALSE" ]
     then
-        echo "Starting Server Back Up..."
+        echo "Updating Server..."
+        getLatestServerJar "$SERVER_DIRECTORY/server/minecraft_server.jar"
+
+        echo "Starting Server..."
 
         #Remove Old Screen Log
         rm -f $SCREEN_LOG
@@ -35,9 +36,6 @@ function server_start()
 
         #Resume Log Tail process
         tail -n+1 -F $SCREEN_LOG &
-
-    else
-        sendCommandToScreen "$SCREEN_NAME" "save-on"
     fi
 }
 
@@ -46,7 +44,7 @@ function main_minecraft_vanilla()
     DO_WHILE_LOOP="$1"
     
     #Update Server
-    #steam_UpdateServer "$SERVER_DIRECTORY/server" "4020" "anonymous"
+    #todo
 
     #Start Server
     server_start
@@ -61,7 +59,6 @@ function main_minecraft_vanilla()
                 drive_sync_main
             fi
 
-            #echo "Sleeping for 30 Seconds..."
             sleep 30
         done
     fi
