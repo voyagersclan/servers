@@ -4,10 +4,10 @@ CONTAINER_NAME="minecraft_vanilla"
 IMAGE_NAME="voyagers:minecraft_vanilla"
 STEAM_PORT_MAPPING="25566:25566"
 
-docker kill $CONTAINER_NAME
-docker stop $CONTAINER_NAME
-docker stop $CONTAINER_NAME
-docker rm $CONTAINER_NAME
+#docker kill $CONTAINER_NAME
+#docker stop $CONTAINER_NAME
+#docker stop $CONTAINER_NAME
+#docker rm $CONTAINER_NAME
 
 #Use below to test and look at file structure
 #docker run -it --rm voyagers:garrys_mod bash
