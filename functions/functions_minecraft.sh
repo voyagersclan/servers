@@ -24,7 +24,6 @@ print(latest_server_download_url)"
 
     SERVER_URL=$(python3 -c "$PYTHON_SCRIPT")
 
-    echo "Server URL:"
     echo "$SERVER_URL"
 }
 
