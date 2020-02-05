@@ -98,7 +98,7 @@ function steam_DownloadMounts()
             then   
                 rm "$SERVER_DIRECTORY/$MOUNTS_FILE_NAME"
                 drive pull -no-prompt -quiet "$MOUNTS_FILE_NAME"
-                tar -zcf "$MOUNTS_FILE_NAME"
+                tar -xf "$MOUNTS_FILE_NAME"
                 rm "$SERVER_DIRECTORY/$MOUNTS_FILE_NAME"
             fi
         fi
@@ -128,7 +128,7 @@ function steam_DownloadMounts()
                 echo "Removing Old Mounts Tar..."
                 rm -f $SERVER_DIRECTORY/mounts.tar.gz
                 echo "Creating New Mounts Tar..."
-                tar -zcf $SERVER_DIRECTORY/mounts.tar.gz $SERVER_DIRECTORY/mounts
+                tar -zcf $SERVER_DIRECTORY/mounts.tar.gz mounts/
 
                 # push archive to drive
                 echo "Deleting Old Mounts Tar from Drive..."

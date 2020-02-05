@@ -14,7 +14,14 @@ STEAM_PORT_MAPPING="27015:27015"
 
 #Initialize for First Start
 if [ ! "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-    docker run -it --name $CONTAINER_NAME -p "$STEAM_PORT_MAPPING" $IMAGE_NAME
+    #Logic to detect if this is a windows or linux box
+    if [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ] || [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ]; then
+        #Not use mounts if on windows box
+        docker run -it --name $CONTAINER_NAME -p "$STEAM_PORT_MAPPING" $IMAGE_NAME
+    else
+        #Use Mounts if on Linux Box
+        docker run -it -v /opt/mounts:/opt/garrys_mod/mounts --name $CONTAINER_NAME -p "$STEAM_PORT_MAPPING" $IMAGE_NAME
+    fi
 fi
 
 docker start $CONTAINER_NAME
