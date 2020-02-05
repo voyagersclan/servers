@@ -1,19 +1,19 @@
 #!/bin/bash
 
 declare -A MOUNT_KEYVALUE_LIST
-# MOUNT_KEYVALUE_LIST+=(["240"]="cstrike")
-# MOUNT_KEYVALUE_LIST+=(["440"]="tf") 
-# MOUNT_KEYVALUE_LIST+=(["280"]="hl1")
-# MOUNT_KEYVALUE_LIST+=(["360"]="hl1mp")
-# MOUNT_KEYVALUE_LIST+=(["220"]="hl2")
+MOUNT_KEYVALUE_LIST+=(["240"]="cstrike")
+MOUNT_KEYVALUE_LIST+=(["440"]="tf") 
+MOUNT_KEYVALUE_LIST+=(["280"]="hl1")
+MOUNT_KEYVALUE_LIST+=(["360"]="hl1mp")
+MOUNT_KEYVALUE_LIST+=(["220"]="hl2")
 MOUNT_KEYVALUE_LIST+=(["320"]="hl2mp")
-# MOUNT_KEYVALUE_LIST+=(["340"]="lostcoast")
-# MOUNT_KEYVALUE_LIST+=(["380"]="episodic")
-# MOUNT_KEYVALUE_LIST+=(["420"]="ep2")
-# MOUNT_KEYVALUE_LIST+=(["500"]="left4dead")
-# MOUNT_KEYVALUE_LIST+=(["550"]="left4dead2")
-# MOUNT_KEYVALUE_LIST+=(["400"]="portal")
-# MOUNT_KEYVALUE_LIST+=(["620"]="portal2")
+MOUNT_KEYVALUE_LIST+=(["340"]="lostcoast")
+MOUNT_KEYVALUE_LIST+=(["380"]="episodic")
+MOUNT_KEYVALUE_LIST+=(["420"]="ep2")
+MOUNT_KEYVALUE_LIST+=(["500"]="left4dead")
+MOUNT_KEYVALUE_LIST+=(["550"]="left4dead2")
+MOUNT_KEYVALUE_LIST+=(["400"]="portal")
+MOUNT_KEYVALUE_LIST+=(["620"]="portal2")
 
 MOUNT_DIRECTORY="$SERVER_DIRECTORY/mounts"
 

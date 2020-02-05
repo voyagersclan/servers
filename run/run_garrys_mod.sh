@@ -4,10 +4,10 @@ CONTAINER_NAME="garrys_mod"
 IMAGE_NAME="voyagers:garrys_mod"
 STEAM_PORT_MAPPING="27015:27015"
 
-docker kill $CONTAINER_NAME
-docker stop $CONTAINER_NAME
-docker stop $CONTAINER_NAME
-docker rm $CONTAINER_NAME
+# docker kill $CONTAINER_NAME
+# docker stop $CONTAINER_NAME
+# docker stop $CONTAINER_NAME
+# docker rm $CONTAINER_NAME
 
 #Use below to test and look at file structure
 #docker run -it --rm voyagers:garrys_mod bash

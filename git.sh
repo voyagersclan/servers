@@ -14,6 +14,8 @@ fi
 
 if [ "$1" = "pull" ]; then
     git remote add origin "$remoteOrigin"
+    git fetch origin master
+    git reset --hard FETCH_HEAD
     git pull origin master
 fi
 
