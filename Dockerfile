@@ -72,12 +72,12 @@ RUN mkdir ${SERVER_DIRECTORY} &&\
 #Move Functions To Proper Place
 COPY functions/ ${SERVER_DIRECTORY}/.functions/
 RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.functions/ &&\
-    chmod 755 ${SERVER_DIRECTORY}/*
+    chmod -R 755 ${SERVER_DIRECTORY}/.functions/
 
 #Move Main Scripts To Proper Place
 COPY main/ ${SERVER_DIRECTORY}/.main/
 RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.main/ &&\
-    chmod 755 ${SERVER_DIRECTORY}/
+    chmod -R 755 ${SERVER_DIRECTORY}/.main/
 
 USER ${SERVER_USER_NAME}
 CMD bash -c ${SERVER_DIRECTORY}/.main/main.sh
