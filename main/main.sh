@@ -52,6 +52,12 @@ function main()
             source ~/.main/main_minecraft_vanilla.sh
             main_minecraft_vanilla "$DO_WHILE_LOOP"
         fi 
+
+        if [ "$SCREEN_NAME" = "hl2dm" ]
+        then
+            source ~/.main/main_hl2dm.sh
+            main_hl2dm "$DO_WHILE_LOOP"
+        fi 
     fi
 }
 
