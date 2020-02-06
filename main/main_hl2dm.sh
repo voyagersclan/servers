@@ -22,7 +22,7 @@ function main_hl2dm()
     DO_WHILE_LOOP="$1"
     
     #Update Server
-    steam_UpdateServer "$SERVER_DIRECTORY/server" "232370" "$STEAM_USERNAME"
+    steam_UpdateServer "$SERVER_DIRECTORY/server" "232370" "anonymous"
 
     #Setup Mount Config
     steam_SetupMountConfig
