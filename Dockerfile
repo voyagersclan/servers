@@ -84,7 +84,7 @@ RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.main/ 
 #Setup SSH Server and Dependencies
 USER root
 RUN mkdir /var/run/sshd &&\
-    ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' &&\
+    ssh-keygen -q -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' &&\
     echo "${SERVER_USER_NAME}:password" | chpasswd
 
 USER ${SERVER_USER_NAME}
