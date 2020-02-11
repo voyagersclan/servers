@@ -143,4 +143,3 @@ if [ ! "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
 fi
 
 docker start $CONTAINER_NAME
-docker logs -f $CONTAINER_NAME
