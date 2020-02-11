@@ -31,6 +31,8 @@ function main_garrys_mod()
 {
     DO_WHILE_LOOP="$1"
 
+    server_start
+
     if [ "$DO_WHILE_LOOP" = "TRUE" ]
     then 
         while :
