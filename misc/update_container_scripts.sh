@@ -1,3 +1,5 @@
+#!/bin/bash
+
 containers=$(docker ps | awk '{if(NR>1) print $NF}')
 
 for CONTAINER_NAME in $containers
