@@ -28,6 +28,7 @@ function main()
         fi
 
         if [ ! -f "/opt/.steam_mounts_enabled" ] 
+        then
             steam_DownloadMounts
         fi
     fi
