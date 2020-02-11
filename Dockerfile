@@ -70,7 +70,6 @@ RUN mkdir ${SERVER_DIRECTORY} &&\
     adduser --system --home ${SERVER_DIRECTORY} --shell /bin/bash --group ${SERVER_USER_NAME} &&\
     chown -R ${SERVER_USER_NAME}:${SERVER_USER_NAME} /opt/
 
-
 #Move Functions To Proper Place
 COPY functions/ ${SERVER_DIRECTORY}/.functions/
 RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.functions/ &&\
@@ -80,15 +79,6 @@ RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.functi
 COPY main/ ${SERVER_DIRECTORY}/.main/
 RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.main/ &&\
     chmod -R 755 ${SERVER_DIRECTORY}/.main/
-
-#Setup SSH Server and Dependencies
-USER root
-RUN apt-get update &&\
-    apt-get install -y openssh-server passwd dnsutils &&\
-    mkdir /var/run/sshd &&\
-    ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' &&\
-    echo "${SERVER_USER_NAME}:password" | chpasswd &&\ 
-    apt-get clean all
 
 USER ${SERVER_USER_NAME}
 CMD bash -c ${SERVER_DIRECTORY}/.main/main.sh

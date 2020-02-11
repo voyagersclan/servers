@@ -15,6 +15,7 @@ IMAGE_NAME="voyagers:minecraft_vanilla"
 
 DOCKER_BUILD_CONTEXT_FOLDER="."
 
+docker rmi $IMAGE_NAME
 docker build --file ./Dockerfile -t "$IMAGE_NAME" --build-arg SERVER_NAME="$SERVER_NAME" \
                                                   --build-arg SERVER_USER_NAME="$SERVER_USER_NAME" \
                                                   --build-arg STEAM_GAME="$STEAM_GAME" \
