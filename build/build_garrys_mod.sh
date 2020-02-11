@@ -22,5 +22,3 @@ docker build --file ./Dockerfile -t "$IMAGE_NAME" --build-arg SERVER_NAME="$SERV
                                                   --build-arg STEAM_NAME_ID="$STEAM_NAME_ID" \
                                                   $DOCKER_BUILD_CONTEXT_FOLDER \
                                                   
-docker system prune --force
-docker system prune --volumes --force
