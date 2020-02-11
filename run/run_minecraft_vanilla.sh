@@ -3,7 +3,7 @@
 CONTAINER_NAME="minecraft_vanilla"
 IMAGE_NAME="voyagers:minecraft_vanilla"
 USE_STEAM_MOUNTS="FALSE"
-USE_VOLUMES="TRUE"
+USE_VOLUMES="FALSE"
 
 declare -A PORT_MAPPING_LIST
 PORT_MAPPING_LIST+=(["25565"]="25565")
