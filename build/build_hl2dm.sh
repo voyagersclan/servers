@@ -15,6 +15,8 @@ IMAGE_NAME="voyagers:hl2dm"
 
 DOCKER_BUILD_CONTEXT_FOLDER="."
 
+docker stop $SERVER_NAME
+docker rm $SERVER_NAME
 docker rmi $IMAGE_NAME
 docker build --file ./Dockerfile -t "$IMAGE_NAME" --build-arg SERVER_NAME="$SERVER_NAME" \
                                                   --build-arg SERVER_USER_NAME="$SERVER_USER_NAME" \
