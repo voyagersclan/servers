@@ -4,10 +4,10 @@ USER root
 
 #Install Misc Dependencies
 RUN apt-get update &&\
-    apt-get install -y curl git screen openjdk-8-jre-headless software-properties-common dirmngr apt-transport-https vim python3 python3-pip &&\ 
+    apt-get install -y curl git screen openjdk-8-jre-headless software-properties-common dirmngr apt-transport-https vim python3 python3-pip openssh-server passwd dnsutils &&\ 
     apt-get clean all
 
-RUN  pip3 install requests
+RUN pip3 install requests 
 
 #Install Google Drive Application
 RUN apt-add-repository 'deb http://shaggytwodope.github.io/repo ./' &&\
@@ -80,6 +80,12 @@ RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.functi
 COPY main/ ${SERVER_DIRECTORY}/.main/
 RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.main/ &&\
     chmod -R 755 ${SERVER_DIRECTORY}/.main/
+
+#Setup SSH Server and Dependencies
+USER root
+RUN mkdir /var/run/sshd &&\
+    ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' &&\
+    echo "${SERVER_USER_NAME}:password" | chpasswd
 
 USER ${SERVER_USER_NAME}
 CMD bash -c ${SERVER_DIRECTORY}/.main/main.sh

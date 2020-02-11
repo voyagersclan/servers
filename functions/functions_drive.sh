@@ -4,19 +4,15 @@ function setupDrive()
 {
     VARIABLE_GOOGLE_DRIVE_ENABLED=$(promptFunction "[Google Drive] Enable Sync Functionality?")
     
-    rm -Rf /opt/.gd
-
-    misc_findReplace "GOOGLE_DRIVE_ENABLED=\"$GOOGLE_DRIVE_ENABLED\"" "GOOGLE_DRIVE_ENABLED=\"$VARIABLE_GOOGLE_DRIVE_ENABLED\"" "$HOME/.main/main.sh"
-    export GOOGLE_DRIVE_ENABLED="$VARIABLE_GOOGLE_DRIVE_ENABLED"
-
-    if [ "$VARIABLE_GOOGLE_DRIVE_ENABLED" = "FALSE" ]
-    then
-        mkdir -p /opt/.gd
-    fi
-
     if [ "$VARIABLE_GOOGLE_DRIVE_ENABLED" = "TRUE" ]
     then
-        drive init /opt
+        touch /opt/.drive_enabled
+
+
+        if [ ! -d "/opt/.gd" ]         
+        then
+            drive init /opt
+        fi 
 
         mkdir -p "$SERVER_DIRECTORY"
         mkdir -p "$SERVER_DIRECTORY/backup"
@@ -65,7 +61,7 @@ function drive_sync_main()
 
     cd "$SERVER_DIRECTORY"
 
-    if [ "$GOOGLE_DRIVE_ENABLED" = "TRUE" ]
+    if [ -f "/opt/.drive_enabled" ] 
     then 
         # push archive to drive
         echo "Deleting Old Server Tar from Drive..."
@@ -83,7 +79,7 @@ function drive_sync_main()
     echo "Copying Server Tar to Timestamped Archive..."
     cp $SERVER_DIRECTORY/server.tar.gz $SERVER_DIRECTORY/backup/server_$DATE_STAMP.tar.gz
     
-    if [ "$GOOGLE_DRIVE_ENABLED" = "TRUE" ]
+    if [ -f "/opt/.drive_enabled" ] 
     then 
         echo "Pushing Timestamped Server Archive to Drive..."
         drive push -no-prompt -quiet server_$DATE_STAMP.tar.gz
@@ -92,7 +88,7 @@ function drive_sync_main()
     #Delete backups older than 60 days
     echo "Deleting Backups Older Than 60 Days..."
 
-    if [ "$GOOGLE_DRIVE_ENABLED" = "TRUE" ]
+    if [ -f "/opt/.drive_enabled" ] 
     then 
         find $SERVER_DIRECTORY/backup -type f -mtime +60 -exec drive trash -quiet '{}' \;
     fi

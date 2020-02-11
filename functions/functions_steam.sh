@@ -15,7 +15,7 @@ MOUNT_KEYVALUE_LIST+=(["550"]="left4dead2")
 MOUNT_KEYVALUE_LIST+=(["400"]="portal")
 MOUNT_KEYVALUE_LIST+=(["620"]="portal2")
 
-MOUNT_DIRECTORY="$SERVER_DIRECTORY/mounts"
+MOUNT_DIRECTORY="$SERVER_DIRECTORY/.mounts"
 
 function steam_UpdateServer()
 {
@@ -77,32 +77,12 @@ function steam_DownloadMounts()
 {
     VARIABLE_STEAM_USE_MOUNTS=$(promptFunction "[Steam] Does this game use Steam Mounts?")
     
-    misc_findReplace "STEAM_USE_MOUNTS=\"$STEAM_USE_MOUNTS\"" "STEAM_USE_MOUNTS=\"$VARIABLE_STEAM_USE_MOUNTS\"" "$HOME/.main/main.sh"
-
-    export STEAM_USE_MOUNTS="$VARIABLE_STEAM_USE_MOUNTS"
-
     if [ "$VARIABLE_STEAM_USE_MOUNTS" = "TRUE" ]
-    then 
-
+    then
+        touch "/opt/.steam_mounts_enabled"
 
         cd "$SERVER_DIRECTORY"
     
-        MOUNTS_FILE_NAME="mounts.tar.gz"
-
-        if [ "$GOOGLE_DRIVE_ENABLED" = "TRUE" ]
-        then 
-
-            PULL_REMOTE_MOUNTS=$(promptFunction "[Google Drive] Pull Down Remote Mounts?")
-
-            if [ "$PULL_REMOTE_MOUNTS" = "TRUE" ]
-            then   
-                rm "$SERVER_DIRECTORY/$MOUNTS_FILE_NAME"
-                drive pull -no-prompt -quiet "$MOUNTS_FILE_NAME"
-                tar -xf "$MOUNTS_FILE_NAME"
-                rm "$SERVER_DIRECTORY/$MOUNTS_FILE_NAME"
-            fi
-        fi
-
         STEAM_UPDATE_MOUNTS=$(promptFunction "[Steam] Update/Validate Mounts at this time?")
 
         if [ "$STEAM_UPDATE_MOUNTS" = "TRUE" ]
@@ -115,34 +95,12 @@ function steam_DownloadMounts()
                 steam_UpdateServer "$MOUNT_DESTINATION_DIRECTORY" "$MOUNT_ID" "$STEAM_USERNAME"
             done
         fi
-
-        if [ "$GOOGLE_DRIVE_ENABLED" = "TRUE" ]
-        then 
-            UPDATE_REMOTE_MOUNTS=$(promptFunction "[Google Drive] Update Remote Mounts Archive? ")
-
-            if [ "$UPDATE_REMOTE_MOUNTS" = "TRUE" ]
-            then      
-                cd "$SERVER_DIRECTORY"
-
-                # archive server directory
-                echo "Removing Old Mounts Tar..."
-                rm -f $SERVER_DIRECTORY/mounts.tar.gz
-                echo "Creating New Mounts Tar..."
-                tar -zcf $SERVER_DIRECTORY/mounts.tar.gz mounts/
-
-                # push archive to drive
-                echo "Deleting Old Mounts Tar from Drive..."
-                drive trash -quiet mounts.tar.gz
-                echo "Pushing New Mounts Tar to Drive..."
-                drive push -no-prompt -quiet mounts.tar.gz
-            fi
-        fi
     fi
 }
 
 function steam_SetupMountConfig()
 {
-    if [ "$STEAM_USE_MOUNTS" = "TRUE" ]
+    if [ -f "/opt/.steam_mounts_enabled" ] 
     then 
         cd $SERVER_DIRECTORY/server/$STEAM_NAME_ID/cfg
 
@@ -191,7 +149,8 @@ function steam_DoInitialLogin()
         EXIT_CODE=$?
     done
 
-    misc_findReplace "STEAM_USERNAME=\"$STEAM_USERNAME\"" "STEAM_USERNAME=\"$NEW_STEAM_USERNAME\"" "$HOME/.main/main.sh"
+    echo "export STEAM_USERNAME=$NEW_STEAM_USERNAME" >  /opt/.steam_username.sh
+    chmod 777 /opt/.steam_username.sh
 
     export STEAM_USERNAME="$NEW_STEAM_USERNAME"
 }

@@ -64,3 +64,32 @@ function isScreenRunning()
         echo "FALSE"
     fi
 }
+
+function startSSH()
+{
+    FILE_CREDENTIALS="$HOME/.credentials.txt"
+
+    if [ ! -f "$FILE_CREDENTIALS" ] 
+    then
+        VARIABLE_CURRENT_IP=$(dig +short myip.opendns.com @resolver1.opendns.com)
+        VARIABLE_CURRENT_USER=$(whoami)
+        VARIABLE_PASSWORD=$(date +%s | sha256sum | base64 | head -c 32 ; echo)
+        echo -e "password\n$VARIABLE_PASSWORD\n$VARIABLE_PASSWORD" | passwd $VARIABLE_CURRENT_USER
+
+        echo "$VARIABLE_CURRENT_IP" > $FILE_CREDENTIALS
+        echo "$VARIABLE_CURRENT_USER" >> $FILE_CREDENTIALS
+        echo "$VARIABLE_PASSWORD" >> $FILE_CREDENTIALS
+
+        if [ -f "/opt/.drive_enabled" ] 
+        then
+            echo "Removing Old Credentials from Drive..."
+            drive trash -quiet $FILE_CREDENTIALS
+            echo "Pushing New Credentials to Drive..."
+            drive push -no-prompt -quiet $FILE_CREDENTIALS
+        fi
+
+        truncate -s 0 $FILE_CREDENTIALS
+    fi
+
+    /usr/sbin/sshd -D &
+}

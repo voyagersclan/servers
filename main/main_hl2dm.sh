@@ -36,7 +36,7 @@ function main_hl2dm()
     then 
         while :
         do
-            if [ $(date '+%H%M') = '0500' ]
+            if [ $(date '+%H%M') = '0600' ]
             then 
                 echo "Doing Drive Sync..."
                 drive_sync_main
