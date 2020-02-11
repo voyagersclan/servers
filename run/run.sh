@@ -3,6 +3,7 @@
 #Gather Passed in Parameters for Usage
 CONTAINER_NAME=$1; shift
 IMAGE_NAME=$1; shift
+USE_VOLUMES=$1; shift
 USE_STEAM_MOUNTS=$1; shift
 eval "declare -A PORT_MAPPING_LIST="${1#*=}
 
@@ -48,11 +49,27 @@ fi
 ##################################################################
 COMMAND_TO_EXECUTE="docker run "
 
+
+######################################
+####Check if Volumes are used     ####
+######################################
+
+if [ "$IS_LINUX" = "TRUE" ] && ["$USE_VOLUMES" = "TRUE" ];
+then
+    LOCAL_MOUNT="/opt/volumes/$CONTAINER_NAME"
+    REMOTE_MOUNT="/opt"
+
+    mkdir -p $LOCAL_MOUNT
+    chmod 777 $LOCAL_MOUNT
+
+    COMMAND_TO_EXECUTE+="-v $LOCAL_MOUNT:$REMOTE_MOUNT "
+fi
+
 ######################################
 ####Check if Steam Mounts are used####
 ######################################
 
-if [ "$USE_STEAM_MOUNTS" = "TRUE" ] && [ "$IS_LINUX" = "TRUE" ];
+if [ "$USE_STEAM_MOUNTS" = "TRUE" ] && [ "$IS_LINUX" = "TRUE" ] && ["$USE_VOLUMES" = "TRUE" ];
 then
     COMMAND_TO_EXECUTE+="-v /opt/mounts:/opt/$CONTAINER_NAME/.mounts "
 fi
