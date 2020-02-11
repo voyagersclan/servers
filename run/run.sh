@@ -54,7 +54,7 @@ COMMAND_TO_EXECUTE="docker run "
 ####Check if Volumes are used     ####
 ######################################
 
-if [ "$IS_LINUX" = "TRUE" ] && ["$USE_VOLUMES" = "TRUE" ];
+if [ "$IS_LINUX" = "TRUE" ] && [ "$USE_VOLUMES" = "TRUE" ];
 then
     LOCAL_MOUNT="/opt/volumes/$CONTAINER_NAME"
     REMOTE_MOUNT="/opt"
@@ -69,7 +69,7 @@ fi
 ####Check if Steam Mounts are used####
 ######################################
 
-if [ "$USE_STEAM_MOUNTS" = "TRUE" ] && [ "$IS_LINUX" = "TRUE" ] && ["$USE_VOLUMES" = "TRUE" ];
+if [ "$USE_STEAM_MOUNTS" = "TRUE" ] && [ "$IS_LINUX" = "TRUE" ] && [ "$USE_VOLUMES" = "TRUE" ];
 then
     COMMAND_TO_EXECUTE+="-v /opt/mounts:/opt/$CONTAINER_NAME/.mounts "
 fi
