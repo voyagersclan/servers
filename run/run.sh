@@ -62,7 +62,7 @@ then
     mkdir -p $LOCAL_MOUNT
     chmod 777 $LOCAL_MOUNT
 
-    COMMAND_TO_EXECUTE+="-v $LOCAL_MOUNT:$REMOTE_MOUNT "
+    $COMMAND_TO_EXECUTE+="-v $LOCAL_MOUNT:$REMOTE_MOUNT "
 fi
 
 ######################################
@@ -71,14 +71,14 @@ fi
 
 if [ "$USE_STEAM_MOUNTS" = "TRUE" ] && [ "$IS_LINUX" = "TRUE" ] && [ "$USE_VOLUMES" = "TRUE" ];
 then
-    COMMAND_TO_EXECUTE+="-v /opt/mounts:/opt/$CONTAINER_NAME/.mounts "
+    $COMMAND_TO_EXECUTE+="-v /opt/mounts:/opt/$CONTAINER_NAME/.mounts "
 fi
 
 ##########################
 ####Add Container Name####
 ##########################
 
-COMMAND_TO_EXECUTE+="--name $CONTAINER_NAME "
+$COMMAND_TO_EXECUTE+="--name $CONTAINER_NAME "
 
 #####################################################################
 ####Iterate the Port Mapping Array and create the Port Arg String####
@@ -87,14 +87,14 @@ COMMAND_TO_EXECUTE+="--name $CONTAINER_NAME "
 for LOCAL_LISTEN_PORT in "${!PORT_MAPPING_LIST[@]}"
 do
     DESTINATION_PORT=${PORT_MAPPING_LIST[$LOCAL_LISTEN_PORT]}
-    COMMAND_TO_EXECUTE+="-p $LOCAL_LISTEN_PORT:$DESTINATION_PORT "
+    $COMMAND_TO_EXECUTE+="-p $LOCAL_LISTEN_PORT:$DESTINATION_PORT "
 done
 
 ######################
 ####Add Image Name####
 ######################
 
-COMMAND_TO_EXECUTE+="$IMAGE_NAME "
+$COMMAND_TO_EXECUTE+="$IMAGE_NAME "
 
 ############################################################
 ####Push Current Existing Containers Server to the Cloud####
