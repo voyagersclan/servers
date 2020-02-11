@@ -14,22 +14,27 @@ function main()
     screen -wipe  
 
     #Check for First Time Setup
-    if [ ! -f "/opt/.drive_enabled" ] 
-    then
-        setupDrive
-        echo "Finished Setup..."
-    fi
+    if [ ! -f "/opt/.initialized" ] 
+    then 
+        touch "/opt/.initialized"
 
-    if [ "$STEAM_GAME" = "TRUE" ]
-    then     
-        if [ ! -f "/opt/.steam_username.sh" ] 
+        if [ ! -f "/opt/.drive_enabled" ] 
         then
-            steam_DoInitialLogin
+            setupDrive
+            echo "Finished Setup..."
         fi
 
-        if [ ! -f "/opt/.steam_mounts_enabled" ] 
-        then
-            steam_DownloadMounts
+        if [ "$STEAM_GAME" = "TRUE" ]
+        then     
+            if [ ! -f "/opt/.steam_username.sh" ] 
+            then
+                steam_DoInitialLogin
+            fi
+
+            if [ ! -f "/opt/.steam_mounts_decided" ] 
+            then
+                steam_DownloadMounts
+            fi
         fi
     fi
 

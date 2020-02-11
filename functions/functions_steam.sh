@@ -77,6 +77,8 @@ function steam_DownloadMounts()
 {
     VARIABLE_STEAM_USE_MOUNTS=$(promptFunction "[Steam] Does this game use Steam Mounts?")
     
+    touch "/opt/.steam_mounts_decided"
+
     if [ "$VARIABLE_STEAM_USE_MOUNTS" = "TRUE" ]
     then
         touch "/opt/.steam_mounts_enabled"
