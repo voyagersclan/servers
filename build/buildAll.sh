@@ -1,5 +1,5 @@
 for f in build/build_*; do
-    sh $f
+    ./$f
 done
 
 docker system prune --force

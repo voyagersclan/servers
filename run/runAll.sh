@@ -1,3 +1,3 @@
 for f in run/run_*; do
-    sh $f
+    ./$f
 done
