@@ -14,13 +14,7 @@ function server_stop()
 function server_start()
 {
     echo "Starting Server Back Up..."
-    main_process "FALSE"
-}
 
-function main_hl2dm()
-{
-    DO_WHILE_LOOP="$1"
-    
     #Update Server
     steam_UpdateServer "$SERVER_DIRECTORY/server" "232370" "anonymous"
 
@@ -31,6 +25,11 @@ function main_hl2dm()
 
     #Start Server
     steam_StartServer "$VARIABLE_EXTRA_ARGS"
+}
+
+function main_hl2dm()
+{
+    DO_WHILE_LOOP="$1"
 
     if [ "$DO_WHILE_LOOP" = "TRUE" ]
     then 

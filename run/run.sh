@@ -47,7 +47,7 @@ fi
 ##################################################################
 ####Declare Arg String for Concatenation and Usage with Docker####
 ##################################################################
-COMMAND_TO_EXECUTE="docker run "
+COMMAND_TO_EXECUTE="docker run -it "
 
 
 ######################################
@@ -101,7 +101,7 @@ COMMAND_TO_EXECUTE+="$IMAGE_NAME "
 ############################################################
 
 if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-    VARIABLE_PUSH_TO_CLOUD=$(promptFunction "[Drive] Do you want to push the current server contents to the cloud? (Y for Push) (N for Nope)")
+    VARIABLE_PUSH_TO_CLOUD=$(promptFunction "[Drive] Do you want to push the current server contents ($CONTAINER_NAME) to the cloud? (Y for Push) (N for Nope)")
 
     if [ "$VARIABLE_PUSH_TO_CLOUD" = "TRUE" ]
     then    

@@ -14,12 +14,6 @@ function server_stop()
 function server_start()
 {
     echo "Starting Server Back Up..."
-    main_process "FALSE"
-}
-
-function main_garrys_mod()
-{
-    DO_WHILE_LOOP="$1"
     
     #Update Server
     steam_UpdateServer "$SERVER_DIRECTORY/server" "4020" "anonymous"
@@ -31,6 +25,11 @@ function main_garrys_mod()
 
     #Start Server
     steam_StartServer "$VARIABLE_EXTRA_ARGS"
+}
+
+function main_garrys_mod()
+{
+    DO_WHILE_LOOP="$1"
 
     if [ "$DO_WHILE_LOOP" = "TRUE" ]
     then 
