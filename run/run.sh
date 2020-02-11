@@ -60,7 +60,14 @@ then
     REMOTE_MOUNT="/opt"
 
     mkdir -p $LOCAL_MOUNT
-    chmod 777 $LOCAL_MOUNT
+
+    mkdir -p $LOCAL_MOUNT/$CONTAINER_NAME/.functions
+    mkdir -p $LOCAL_MOUNT/$CONTAINER_NAME/.main
+
+    cp ./functions/* $LOCAL_MOUNT/$CONTAINER_NAME/.functions/
+    cp ./main/* $LOCAL_MOUNT/$CONTAINER_NAME/.main/
+
+    chmod 777 -R $LOCAL_MOUNT
 
     COMMAND_TO_EXECUTE+="-v $LOCAL_MOUNT:$REMOTE_MOUNT "
 fi
