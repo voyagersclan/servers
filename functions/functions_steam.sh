@@ -73,30 +73,52 @@ function steam_UpdateServer()
 }
 
 
+function steam_DownloadMounts_Update()
+{            
+    cd "$SERVER_DIRECTORY"
+        
+    STEAM_UPDATE_MOUNTS=$(promptFunction "[Steam] Update/Validate Mounts at this time?" "n" "10")
+
+    if [ "$STEAM_UPDATE_MOUNTS" = "TRUE" ]
+    then
+        for MOUNT_ID in "${!MOUNT_KEYVALUE_LIST[@]}"
+        do
+            MOUNT_NAME=${MOUNT_KEYVALUE_LIST[$MOUNT_ID]}
+            MOUNT_DESTINATION_DIRECTORY="$MOUNT_DIRECTORY/$MOUNT_NAME"
+
+            steam_UpdateServer "$MOUNT_DESTINATION_DIRECTORY" "$MOUNT_ID" "$STEAM_USERNAME"
+        done
+    fi
+}
+
 function steam_DownloadMounts()
 {
-    VARIABLE_STEAM_USE_MOUNTS=$(promptFunction "[Steam] Does this game use Steam Mounts?" "n" "10")
-    
-    touch "/opt/.steam_mounts_decided"
+    VARIABLE_STEAM_USE_MOUNTS="FALSE"
+
+    if [ ! -f "/opt/.steam_mounts_disabled" ] && [ ! -f "/opt/.steam_mounts_enabled" ];
+    then
+        VARIABLE_STEAM_USE_MOUNTS=$(promptFunction "[Steam] Does this game use Steam Mounts?" "n" "10")
+    fi
+
+    if [ -f "/opt/.steam_mounts_enabled" ]
+    then
+        VARIABLE_STEAM_USE_MOUNTS="TRUE"
+    fi
+
+    if [ -f "/opt/.steam_mounts_disabled" ]
+    then
+        VARIABLE_STEAM_USE_MOUNTS="FALSE"
+    fi
 
     if [ "$VARIABLE_STEAM_USE_MOUNTS" = "TRUE" ]
     then
         touch "/opt/.steam_mounts_enabled"
+        steam_DownloadMounts_Update
+    fi
 
-        cd "$SERVER_DIRECTORY"
-    
-        STEAM_UPDATE_MOUNTS=$(promptFunction "[Steam] Update/Validate Mounts at this time?" "n" "10")
-
-        if [ "$STEAM_UPDATE_MOUNTS" = "TRUE" ]
-        then
-            for MOUNT_ID in "${!MOUNT_KEYVALUE_LIST[@]}"
-            do
-                MOUNT_NAME=${MOUNT_KEYVALUE_LIST[$MOUNT_ID]}
-                MOUNT_DESTINATION_DIRECTORY="$MOUNT_DIRECTORY/$MOUNT_NAME"
-
-                steam_UpdateServer "$MOUNT_DESTINATION_DIRECTORY" "$MOUNT_ID" "$STEAM_USERNAME"
-            done
-        fi
+    if [ "$VARIABLE_STEAM_USE_MOUNTS" = "FALSE" ]
+    then
+        touch "/opt/.steam_mounts_disabled"
     fi
 }
 

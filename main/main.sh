@@ -30,12 +30,14 @@ function main()
             then
                 steam_DoInitialLogin
             fi
-
-            if [ ! -f "/opt/.steam_mounts_decided" ] 
-            then
-                steam_DownloadMounts
-            fi
         fi
+
+        exit 0
+    fi
+
+    if [ "$STEAM_GAME" = "TRUE" ]
+    then 
+        steam_DownloadMounts
     fi
 
     #Start SSH Server
