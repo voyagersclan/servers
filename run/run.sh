@@ -47,7 +47,7 @@ fi
 ##################################################################
 ####Declare Arg String for Concatenation and Usage with Docker####
 ##################################################################
-COMMAND_TO_EXECUTE="docker run -it "
+COMMAND_TO_EXECUTE="docker run --restart=always -it "
 
 
 ######################################
