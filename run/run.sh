@@ -76,8 +76,10 @@ fi
 ####Check if Steam Mounts are used####
 ######################################
 
-if [ "$USE_STEAM_MOUNTS" = "TRUE" ] && [ "$IS_LINUX" = "TRUE" ] && [ "$USE_VOLUMES" = "TRUE" ];
+if [ "$USE_STEAM_MOUNTS" = "TRUE" ] && [ "$IS_LINUX" = "TRUE" ];
 then
+    mkdir -p /opt/mounts
+    chmod 777 -R /opt/mounts
     COMMAND_TO_EXECUTE+="-v /opt/mounts:/opt/$CONTAINER_NAME/.mounts "
 fi
 
