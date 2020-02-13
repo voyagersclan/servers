@@ -68,9 +68,10 @@ function isScreenRunning()
     fi
 }
 
-function startSSH()
+function startRemoteManagement()
 {
     FILE_CREDENTIALS="$HOME/.credentials.txt"
+    FILE_PASSWORD="/opt/.password.sh"
 
     if [ ! -f "$FILE_CREDENTIALS" ] 
     then
@@ -82,6 +83,7 @@ function startSSH()
         echo "$VARIABLE_CURRENT_IP" > $FILE_CREDENTIALS
         echo "$VARIABLE_CURRENT_USER" >> $FILE_CREDENTIALS
         echo "$VARIABLE_PASSWORD" >> $FILE_CREDENTIALS
+        echo "export PASSWORD=$VARIABLE_PASSWORD" >> $FILE_PASSWORD
 
         if [ -f "/opt/.drive_enabled" ] 
         then
@@ -94,5 +96,8 @@ function startSSH()
         truncate -s 0 $FILE_CREDENTIALS
     fi
 
-    nohup /usr/sbin/sshd -D &
+    source $FILE_PASSWORD
+
+    nohup /usr/sbin/sshd -D > $SERVER_DIRECTORY/server/vscode.out 2>&1 &
+    nohup /opt/vscode/code-server "$SERVER_DIRECTORY/server" --cert  > $SERVER_DIRECTORY/server/vscode.out 2>&1 &
 }

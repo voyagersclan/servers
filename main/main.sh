@@ -40,8 +40,8 @@ function main()
         steam_DownloadMounts
     fi
 
-    #Start SSH Server
-    startSSH
+    #Start Remote Management
+    startRemoteManagement
 
     if [ "$SCREEN_NAME" = "garrys_mod" ]
     then

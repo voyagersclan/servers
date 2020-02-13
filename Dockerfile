@@ -4,7 +4,7 @@ USER root
 
 #Install Misc Dependencies
 RUN apt-get update &&\
-    apt-get install -y curl git screen openjdk-8-jre-headless software-properties-common dirmngr apt-transport-https vim python3 python3-pip openssh-server passwd dnsutils &&\ 
+    apt-get install -y curl git screen openjdk-8-jre-headless software-properties-common dirmngr apt-transport-https vim python3 python3-pip openssh-server passwd dnsutils zip unzip &&\ 
     apt-get clean all
 
 RUN pip3 install requests 
@@ -66,6 +66,7 @@ ENV STEAM_NAME_ID "$STEAM_NAME_ID"
 
 #Setup Directories for Server
 RUN mkdir ${SERVER_DIRECTORY} &&\
+    mkdir ${SERVER_DIRECTORY}/server &&\
     mkdir ${SERVER_DIRECTORY}/backup &&\
     adduser --system --home ${SERVER_DIRECTORY} --shell /bin/bash --group ${SERVER_USER_NAME} &&\
     chown -R ${SERVER_USER_NAME}:${SERVER_USER_NAME} /opt/
@@ -86,6 +87,14 @@ USER root
 RUN mkdir /var/run/sshd &&\
     echo "y" | ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N '' &&\
     echo "${SERVER_USER_NAME}:password" | chpasswd
+
+#Add VSCode
+COPY assets/code-server*.tar.gz /tmp/
+RUN mkdir /opt/vscode  &&\
+    tar -xf /tmp/code-server*.tar.gz -C /opt/vscode --strip-components=1 &&\
+    rm -f /tmp/code-server*.tar.gz &&\
+    chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R /opt/vscode &&\
+    chmod -R 755 /opt/vscode
 
 USER ${SERVER_USER_NAME}
 CMD bash -c ${SERVER_DIRECTORY}/.main/main.sh
