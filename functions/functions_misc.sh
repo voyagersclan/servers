@@ -7,9 +7,10 @@ function promptFunction()
     TIMEOUT_VALUE="$3"
 
     VARIABLE_RESPONSE_TO_RETURN="FALSE"
-    
+
     while true; do
-        read -t $TIMEOUT_VALUE -p "$MESSAGE_TO_DISPLAY `echo $'\n> '`" -i "$DEFAULT_VALUE" yn || yn="$DEFAULT_VALUE"
+        read -t $TIMEOUT_VALUE -p "$MESSAGE_TO_DISPLAY" -i "$DEFAULT_VALUE" yn || yn="$DEFAULT_VALUE"
+        echo "" >>/dev/stderr
         case $yn in
             [Yy]* ) VARIABLE_RESPONSE_TO_RETURN="TRUE"; break;;
             [Nn]* ) VARIABLE_RESPONSE_TO_RETURN="FALSE"; break;;

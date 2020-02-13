@@ -2,7 +2,7 @@
 
 function setupDrive()
 {
-    VARIABLE_GOOGLE_DRIVE_ENABLED=$(promptFunction "[Google Drive] Enable Sync Functionality?" "y")
+    VARIABLE_GOOGLE_DRIVE_ENABLED=$(promptFunction "[Google Drive] Enable Sync Functionality?" "y" "10")
     
     if [ "$VARIABLE_GOOGLE_DRIVE_ENABLED" = "TRUE" ]
     then
@@ -20,7 +20,7 @@ function setupDrive()
         drive push -no-prompt -quiet -directories "$SERVER_DIRECTORY"
         drive push -no-prompt -quiet -directories "$SERVER_DIRECTORY/backup"
 
-        VARIABLE_START_FRESH=$(promptFunction "[Google Drive] Pull Down Latest Server Backup or Start Fresh? (y for Latest Backup) (n for Start Fresh) ")
+        VARIABLE_START_FRESH=$(promptFunction "[Google Drive] Pull Down Latest Server Backup or Start Fresh? (y for Latest Backup) (n for Start Fresh) " "y" "10")
 
         if [ "$VARIABLE_START_FRESH" = "TRUE" ]
         then
