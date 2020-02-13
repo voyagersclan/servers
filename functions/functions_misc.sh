@@ -3,11 +3,13 @@
 function promptFunction()
 {
     MESSAGE_TO_DISPLAY="$1"
+    DEFAULT_VALUE="$2"
+    TIMEOUT_VALUE="$3"
 
     VARIABLE_RESPONSE_TO_RETURN="FALSE"
     
     while true; do
-        read -p "$MESSAGE_TO_DISPLAY" yn
+        read -t $TIMEOUT_VALUE -p "$MESSAGE_TO_DISPLAY" -e -i "$DEFAULT_VALUE" yn
         case $yn in
             [Yy]* ) VARIABLE_RESPONSE_TO_RETURN="TRUE"; break;;
             [Nn]* ) VARIABLE_RESPONSE_TO_RETURN="FALSE"; break;;
@@ -91,5 +93,5 @@ function startSSH()
         truncate -s 0 $FILE_CREDENTIALS
     fi
 
-    /usr/sbin/sshd -D &
+    nohup /usr/sbin/sshd -D &
 }

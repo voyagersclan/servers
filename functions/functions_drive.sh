@@ -2,7 +2,7 @@
 
 function setupDrive()
 {
-    VARIABLE_GOOGLE_DRIVE_ENABLED=$(promptFunction "[Google Drive] Enable Sync Functionality?")
+    VARIABLE_GOOGLE_DRIVE_ENABLED=$(promptFunction "[Google Drive] Enable Sync Functionality?" "y")
     
     if [ "$VARIABLE_GOOGLE_DRIVE_ENABLED" = "TRUE" ]
     then

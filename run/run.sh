@@ -14,11 +14,13 @@ eval "declare -A PORT_MAPPING_LIST="${1#*=}
 function promptFunction()
 {
     MESSAGE_TO_DISPLAY="$1"
+    DEFAULT_VALUE="$2"
+    TIMEOUT_VALUE="$3"
 
     VARIABLE_RESPONSE_TO_RETURN="FALSE"
     
     while true; do
-        read -p "$MESSAGE_TO_DISPLAY" yn
+        read -t $TIMEOUT_VALUE -p "$MESSAGE_TO_DISPLAY" -e -i "$DEFAULT_VALUE" yn
         case $yn in
             [Yy]* ) VARIABLE_RESPONSE_TO_RETURN="TRUE"; break;;
             [Nn]* ) VARIABLE_RESPONSE_TO_RETURN="FALSE"; break;;
@@ -110,7 +112,7 @@ COMMAND_TO_EXECUTE+="$IMAGE_NAME "
 ############################################################
 
 if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-    VARIABLE_PUSH_TO_CLOUD=$(promptFunction "[Drive] Do you want to push the current server contents ($CONTAINER_NAME) to the cloud? (Y for Push) (N for Nope)")
+    VARIABLE_PUSH_TO_CLOUD=$(promptFunction "[Drive] Do you want to push the current server contents ($CONTAINER_NAME) to the cloud? (Y for Push) (N for Nope)" "n" "10")
 
     if [ "$VARIABLE_PUSH_TO_CLOUD" = "TRUE" ]
     then    
@@ -135,7 +137,7 @@ fi
 ############################################################################
 
 if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-    VARIABLE_START_FRESH=$(promptFunction "[Docker][WARNING] Do you want to Kill, Stop, and Remove the Current Container for $CONTAINER_NAME? This will delete all data in the container that has not been backed up to the cloud. (Y for Delete) (N for Keep)")
+    VARIABLE_START_FRESH=$(promptFunction "[Docker][WARNING] Do you want to Kill, Stop, and Remove the Current Container for $CONTAINER_NAME? This will delete all data in the container that has not been backed up to the cloud. (Y for Delete) (N for Keep)" "y" "10")
 
     if [ "$VARIABLE_START_FRESH" = "TRUE" ]
     then

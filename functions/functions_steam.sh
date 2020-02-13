@@ -75,7 +75,7 @@ function steam_UpdateServer()
 
 function steam_DownloadMounts()
 {
-    VARIABLE_STEAM_USE_MOUNTS=$(promptFunction "[Steam] Does this game use Steam Mounts?")
+    VARIABLE_STEAM_USE_MOUNTS=$(promptFunction "[Steam] Does this game use Steam Mounts?" "n" "10")
     
     touch "/opt/.steam_mounts_decided"
 
@@ -85,7 +85,7 @@ function steam_DownloadMounts()
 
         cd "$SERVER_DIRECTORY"
     
-        STEAM_UPDATE_MOUNTS=$(promptFunction "[Steam] Update/Validate Mounts at this time?")
+        STEAM_UPDATE_MOUNTS=$(promptFunction "[Steam] Update/Validate Mounts at this time?" "n" "10")
 
         if [ "$STEAM_UPDATE_MOUNTS" = "TRUE" ]
         then
