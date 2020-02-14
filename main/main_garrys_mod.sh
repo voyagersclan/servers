@@ -17,11 +17,11 @@ function server_start()
     
     #Update Server
     steam_UpdateServer "$SERVER_DIRECTORY/server" "4020" "anonymous"
-
+w
     #Setup Mount Config
     steam_SetupMountConfig
 
-    VARIABLE_EXTRA_ARGS="-game $STEAM_NAME_ID +map gm_construct +maxplayers 10  +gamemode \"terrortown\" +host_workshop_collection 284752217"
+    VARIABLE_EXTRA_ARGS="-game $STEAM_NAME_ID +map gm_construct +maxplayers 10  +gamemode \"terrortown\" +host_workshop_collection 284752217 +exec server.cfg"
 
     #Start Server
     steam_StartServer "$VARIABLE_EXTRA_ARGS"
