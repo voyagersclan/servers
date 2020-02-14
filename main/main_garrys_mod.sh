@@ -17,7 +17,7 @@ function server_start()
     
     #Update Server
     steam_UpdateServer "$SERVER_DIRECTORY/server" "4020" "anonymous"
-w
+
     #Setup Mount Config
     steam_SetupMountConfig
 
