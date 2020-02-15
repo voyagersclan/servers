@@ -15,8 +15,13 @@ function server_start()
 {
     echo "Starting Server Back Up..."
 
-    #Update Server
-    steam_UpdateServer "$SERVER_DIRECTORY/server" "232370" "anonymous"
+    STEAM_UPDATE_GAME=$(promptFunction "[Steam] Update Game at this Time?" "n" "10")
+
+    if [ "$STEAM_UPDATE_GAME" = "TRUE" ]
+    then
+        #Update Server
+        steam_UpdateServer "$SERVER_DIRECTORY/server" "232370" "anonymous"
+    fi
 
     #Setup Mount Config
     steam_SetupMountConfig
