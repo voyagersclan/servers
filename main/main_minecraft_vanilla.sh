@@ -38,28 +38,3 @@ function server_start()
         tail -n+1 -F $SCREEN_LOG &
     fi
 }
-
-function main_minecraft_vanilla()
-{
-    DO_WHILE_LOOP="$1"
-    
-    #Update Server
-    #todo
-
-    #Start Server
-    server_start
-
-    if [ "$DO_WHILE_LOOP" = "TRUE" ]
-    then 
-        while :
-        do
-            if [ $(date '+%H%M') = '0700' ]
-            then 
-                echo "Doing Drive Sync..."
-                drive_sync_main
-            fi
-
-            sleep 30
-        done
-    fi
-}

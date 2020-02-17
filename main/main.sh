@@ -46,20 +46,33 @@ function main()
     if [ "$SCREEN_NAME" = "garrys_mod" ]
     then
         source ~/.main/main_garrys_mod.sh
-        main_garrys_mod "$DO_WHILE_LOOP"
     fi 
 
     if [ "$SCREEN_NAME" = "minecraft_vanilla" ]
     then
         source ~/.main/main_minecraft_vanilla.sh
-        main_minecraft_vanilla "$DO_WHILE_LOOP"
     fi 
 
     if [ "$SCREEN_NAME" = "hl2dm" ]
     then
         source ~/.main/main_hl2dm.sh
-        main_hl2dm "$DO_WHILE_LOOP"
     fi 
+
+    server_start
+
+    if [ "$DO_WHILE_LOOP" = "TRUE" ]
+    then 
+        while :
+        do
+            if [ $(date '+%H%M') = '0600' ]
+            then 
+                echo "Doing Drive Sync..."
+                drive_sync_main
+            fi
+
+            sleep 30
+        done
+    fi
 }
 
 main "TRUE"

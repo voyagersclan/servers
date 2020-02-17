@@ -31,25 +31,3 @@ function server_start()
     #Start Server
     steam_StartServer "$VARIABLE_EXTRA_ARGS"
 }
-
-function main_hl2dm()
-{
-    DO_WHILE_LOOP="$1"
-
-    server_start
-
-    if [ "$DO_WHILE_LOOP" = "TRUE" ]
-    then 
-        while :
-        do
-            if [ $(date '+%H%M') = '0600' ]
-            then 
-                echo "Doing Drive Sync..."
-                drive_sync_main
-            fi
-
-            #echo "Sleeping for 30 Seconds..."
-            sleep 30
-        done
-    fi
-}
