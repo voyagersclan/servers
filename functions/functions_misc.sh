@@ -98,6 +98,29 @@ function startRemoteManagement()
 
     source $FILE_PASSWORD
 
-    nohup /usr/sbin/sshd -D > $SERVER_DIRECTORY/server/vscode.out 2>&1 &
-    nohup /opt/vscode/code-server "$SERVER_DIRECTORY/server" --cert  > $SERVER_DIRECTORY/server/vscode.out 2>&1 &
+    export -f startSSH
+    export -f startVSCode
+
+    nohup bash -c startSSH >> $SERVER_DIRECTORY/server/sshd.out 2>&1 &
+    nohup bash -c startVSCode >> $SERVER_DIRECTORY/server/vscode.out 2>&1 &
 }
+
+
+function startSSH()
+{
+    while :
+    do
+        /usr/sbin/sshd -D >> $SERVER_DIRECTORY/server/sshd.out 2>&1
+        sleep 5
+    done
+}
+
+function startVSCode()
+{
+    while :
+    do
+        /opt/vscode/code-server "$SERVER_DIRECTORY/server" --cert  >> $SERVER_DIRECTORY/server/vscode.out 2>&1
+        sleep 5
+    done
+}
+
