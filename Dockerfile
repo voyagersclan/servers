@@ -16,10 +16,6 @@ RUN cd ~ &&\
 
 ENV PATH $PATH:/usr/local/go/bin
 
-#Install Google Drive Application
-RUN go version &&\
-    go get -u github.com/odeke-em/drive/cmd/drive
-
 #Install Steam Dependencies
 RUN echo 'deb http://mirrors.linode.com/debian stretch main non-free' >> /etc/apt/sources.list &&\
     echo 'deb-src http://mirrors.linode.com/debian stretch main non-free' >> /etc/apt/sources.list &&\
@@ -101,4 +97,12 @@ RUN mkdir /opt/vscode  &&\
     chmod -R 755 /opt/vscode
 
 USER ${SERVER_USER_NAME}
+
+#Install Google Drive Application
+RUN go version &&\
+    go get -u github.com/odeke-em/drive/cmd/drive
+
+ENV PATH $PATH:$SERVER_DIRECTORY/go/bin
+RUN drive version
+
 CMD bash -c ${SERVER_DIRECTORY}/.main/main.sh
