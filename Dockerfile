@@ -4,17 +4,21 @@ USER root
 
 #Install Misc Dependencies
 RUN apt-get update &&\
-    apt-get install -y curl git screen openjdk-8-jre-headless software-properties-common dirmngr apt-transport-https vim python3 python3-pip openssh-server passwd dnsutils zip unzip &&\ 
+    apt-get install -y curl git screen openjdk-8-jre-headless software-properties-common dirmngr apt-transport-https vim python3 python3-pip openssh-server passwd dnsutils zip unzip wget &&\ 
     apt-get clean all
 
 RUN pip3 install requests 
 
+#Install Go
+RUN cd ~ &&\
+    wget "https://golang.org/dl/go1.16.3.linux-amd64.tar.gz" &&\
+    rm -rf /usr/local/go && tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz 
+
+ENV PATH $PATH:/usr/local/go/bin
+
 #Install Google Drive Application
-RUN apt-add-repository 'deb http://shaggytwodope.github.io/repo ./' &&\
-    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 7086E9CC7EC3233B &&\
-    apt-get update &&\
-    apt-get install -y drive &&\
-    apt-get clean all
+RUN go version &&\
+    go get -u github.com/odeke-em/drive/cmd/drive
 
 #Install Steam Dependencies
 RUN echo 'deb http://mirrors.linode.com/debian stretch main non-free' >> /etc/apt/sources.list &&\
