@@ -14,6 +14,8 @@ RUN cd ~ &&\
     wget "https://golang.org/dl/go1.16.3.linux-amd64.tar.gz" &&\
     rm -rf /usr/local/go && tar -C /usr/local -xzf go1.16.3.linux-amd64.tar.gz 
 
+ENV GOPATH /opt/go
+
 ENV PATH $PATH:/usr/local/go/bin
 
 #Install Steam Dependencies
@@ -72,16 +74,6 @@ RUN mkdir ${SERVER_DIRECTORY} &&\
     chown -R ${SERVER_USER_NAME}:${SERVER_USER_NAME} /opt/
 
 
-#Move Functions To Proper Place
-COPY functions/ ${SERVER_DIRECTORY}/.functions/
-RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.functions/ &&\
-    chmod -R 755 ${SERVER_DIRECTORY}/.functions/
-
-#Move Main Scripts To Proper Place
-COPY main/ ${SERVER_DIRECTORY}/.main/
-RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.main/ &&\
-    chmod -R 755 ${SERVER_DIRECTORY}/.main/
-
 #Setup SSH Server and Dependencies
 USER root
 RUN mkdir /var/run/sshd &&\
@@ -96,13 +88,39 @@ RUN mkdir /opt/vscode  &&\
     chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R /opt/vscode &&\
     chmod -R 755 /opt/vscode
 
-USER ${SERVER_USER_NAME}
+#Install Node JS
+RUN curl -fsSL https://deb.nodesource.com/setup_15.x | bash - &&\
+    apt-get install -y nodejs npm
 
-#Install Google Drive Application
+#Install AWS CLI
+RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" &&\
+    unzip awscliv2.zip &&\
+    ./aws/install
+
+#Test AWS as Non-Root
+USER ${SERVER_USER_NAME}
+RUN aws --version
+
+#Google Drive - Install as Non-Root
+USER ${SERVER_USER_NAME}
 RUN go version &&\
     go get -u github.com/odeke-em/drive/cmd/drive
 
-ENV PATH $PATH:$SERVER_DIRECTORY/go/bin
+#Google Drive - Test Installation
+ENV PATH $PATH:$GOPATH/bin
 RUN drive version
 
+#Move Functions To Proper Place
+USER root
+COPY functions/ ${SERVER_DIRECTORY}/.functions/
+RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.functions/ &&\
+    chmod -R 755 ${SERVER_DIRECTORY}/.functions/
+
+#Move Main Scripts To Proper Place
+USER root
+COPY main/ ${SERVER_DIRECTORY}/.main/
+RUN chown ${SERVER_USER_NAME}:${SERVER_USER_NAME} -R ${SERVER_DIRECTORY}/.main/ &&\
+    chmod -R 755 ${SERVER_DIRECTORY}/.main/
+
+USER ${SERVER_USER_NAME}
 CMD bash -c ${SERVER_DIRECTORY}/.main/main.sh

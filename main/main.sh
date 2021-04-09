@@ -58,6 +58,11 @@ function main()
         source ~/.main/main_hl2dm.sh
     fi 
 
+    if [ "$SCREEN_NAME" = "discord_server_bot" ]
+    then
+        source ~/.main/main_discord_server_bot.sh
+    fi 
+
     server_start
 
     if [ "$DO_WHILE_LOOP" = "TRUE" ]

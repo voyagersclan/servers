@@ -11,14 +11,21 @@ function setupDrive()
 
         if [ ! -d "/opt/.gd" ]         
         then
+            echo "[Google Drive] Initializing Drive Functionality..."
             drive init /opt
         fi 
 
+        echo "[Google Drive] Establishing Initial Directories..."
         mkdir -p "$SERVER_DIRECTORY"
         mkdir -p "$SERVER_DIRECTORY/backup"
 
-        drive push -no-prompt -quiet -directories "$SERVER_DIRECTORY"
-        drive push -no-prompt -quiet -directories "$SERVER_DIRECTORY/backup"
+        echo "[Google Drive] Pushing Initial Directory for $SERVER_DIRECTORY..."
+        #drive push -no-prompt -quiet -directories "$SERVER_DIRECTORY"
+        drive push -no-prompt -directories "$SERVER_DIRECTORY"
+
+        echo "[Google Drive] Pushing Initial Directory for $SERVER_DIRECTORY/backup..."
+        #drive push -no-prompt -quiet -directories "$SERVER_DIRECTORY/backup"
+        drive push -no-prompt -directories "$SERVER_DIRECTORY/backup"
 
         VARIABLE_START_FRESH=$(promptFunction "[Google Drive] Pull Down Latest Server Backup or Start Fresh? (y for Latest Backup) (n for Start Fresh) " "y" "10")
 

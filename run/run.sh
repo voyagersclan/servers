@@ -153,4 +153,4 @@ if [ ! "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
     $COMMAND_TO_EXECUTE
 fi
 
-docker start $CONTAINER_NAME
+docker start -ai $CONTAINER_NAME
