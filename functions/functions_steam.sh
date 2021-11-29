@@ -191,9 +191,9 @@ function steam_StartServer()
 
     echo "Starting Steam with the Following Arguments $VARIABLE_EXTRA_ARGS"
 
-    screen -L $SCREEN_LOG -DmS $SCREEN_NAME ./srcds_run \
+    screen -d -m -L -Logfile $SCREEN_LOG -S $SCREEN_NAME ./srcds_run \
                                             -console \
-                                            $VARIABLE_EXTRA_ARGS & \
+                                            $VARIABLE_EXTRA_ARGS & 
     
     #Kill all currently running Tail processes
     killall tail

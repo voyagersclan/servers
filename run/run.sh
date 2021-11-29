@@ -48,7 +48,7 @@ fi
 ##################################################################
 ####Declare Arg String for Concatenation and Usage with Docker####
 ##################################################################
-COMMAND_TO_EXECUTE="docker run --restart=always -it "
+COMMAND_TO_EXECUTE="docker run --restart=always -itd "
 
 
 ######################################
@@ -151,6 +151,8 @@ fi
 #Initialize for First Start
 if [ ! "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
     $COMMAND_TO_EXECUTE
+    docker logs $CONTAINER_NAME
+    docker attach $CONTAINER_NAME
 fi
 
 docker start -ai $CONTAINER_NAME

@@ -34,4 +34,5 @@ function getLatestServerJar()
     LATEST_SERVER_URL=$(getLatestServerUrl)
 
     curl -o "$DESTINATION_FILE_PATH" "$LATEST_SERVER_URL"
+    chmod 755 "$DESTINATION_FILE_PATH"
 }

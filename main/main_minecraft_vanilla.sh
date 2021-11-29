@@ -26,10 +26,16 @@ function server_start()
         #Remove Old Screen Log
         rm -f $SCREEN_LOG
 
-        screen -L $SCREEN_LOG -DmS $SCREEN_NAME /usr/bin/java -server -Xms512M \
-            -Xmx2048M -XX:+UseG1GC -XX:+CMSClassUnloadingEnabled \
-            -XX:ParallelGCThreads=2 -XX:MinHeapFreeRatio=5 \
-            -XX:MaxHeapFreeRatio=10 -jar minecraft_server.jar nogui & \
+        VARIABLE_JAVA_ARGS="-server "
+        VARIABLE_JAVA_ARGS+="-Xms512M -Xmx2048M "
+        VARIABLE_JAVA_ARGS+="-XX:+UseG1GC "
+        # VARIABLE_JAVA_ARGS+="-XX:+CMSClassUnloadingEnabled "
+        VARIABLE_JAVA_ARGS+="-XX:ParallelGCThreads=2 "
+        VARIABLE_JAVA_ARGS+="-XX:MinHeapFreeRatio=5 "
+        VARIABLE_JAVA_ARGS+="-XX:MaxHeapFreeRatio=10 "
+        VARIABLE_JAVA_ARGS+="-jar minecraft_server.jar nogui "
+ 
+        screen -d -m -L -Logfile $SCREEN_LOG -S $SCREEN_NAME /usr/bin/java $VARIABLE_JAVA_ARGS & 
 
         #Kill all currently running Tail processes
         killall tail

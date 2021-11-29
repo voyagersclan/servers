@@ -38,7 +38,6 @@ function setupDrive()
     fi
 }
 
-
 function server_stop()
 {
     echo "[Drive][ERROR] If you are seeing this message the server_stop function has not been implemented on one of the main_servername.sh scripts"
@@ -70,14 +69,19 @@ function drive_sync_main_prompt()
     fi
 }
 
+export -f drive_sync_reauth
+
 function drive_sync_main()
 {
+    echo "[Google Drive] Stopping Server ..."
     server_stop
 
+    echo "[Google Drive] Syncing Write Cache to Disk ..."
     syncWriteCacheToDisk
 
+    echo "[Google Drive] Prompting for Optional Re-Auth ..."
     drive_sync_reauth
-
+    
     cd "$SERVER_DIRECTORY"
 
     # archive server directory
@@ -124,3 +128,5 @@ function drive_sync_main()
 
     find $SERVER_DIRECTORY/backup -type f -mtime +60 -delete 
 }
+
+export -f drive_sync_main

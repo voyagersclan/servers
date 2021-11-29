@@ -8,8 +8,6 @@ source ~/.functions/functions_minecraft.sh
 
 function main()
 {
-    DO_WHILE_LOOP="$1"
-
     #Remove Dead Screens
     screen -wipe  
 
@@ -63,23 +61,26 @@ function main()
         source ~/.main/main_discord_server_bot.sh
     fi 
 
-    drive_sync_main_prompt
 
-    server_start
+    VARIABLE_GOOGLE_DRIVE_DO_BACKUP=$(promptFunction "[Google Drive] Backup to Google Drive?" "y" "10")
 
-    # if [ "$DO_WHILE_LOOP" = "TRUE" ]
-    # then 
-    #     while :
-    #     do
-    #         if [ $(date '+%H%M') = '0600' ]
-    #         then 
-    #             echo "Doing Drive Sync..."
-    #             drive_sync_main
-    #         fi
+    if [ "$VARIABLE_GOOGLE_DRIVE_DO_BACKUP" = "TRUE" ]
+    then
+        drive_sync_main
+    else
+        server_start
+    fi
 
-    #         sleep 30
-    #     done
-    # fi
+    while :
+    do
+        # if [ $(date '+%H%M') = '0600' ]
+        # then 
+            # echo "Doing Drive Sync..."
+            # drive_sync_main
+        # fi
+
+        sleep 30
+    done
 }
 
-main "TRUE"
+main
