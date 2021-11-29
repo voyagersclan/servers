@@ -1,10 +1,10 @@
-FROM debian:stretch
+FROM debian:bullseye
 
 USER root
 
 #Install Misc Dependencies
 RUN apt-get update &&\
-    apt-get install -y curl git screen openjdk-8-jre-headless software-properties-common dirmngr apt-transport-https vim python3 python3-pip openssh-server passwd dnsutils zip unzip wget &&\ 
+    apt-get install -y curl git screen openjdk-17-jre-headless software-properties-common dirmngr apt-transport-https vim python3 python3-pip openssh-server passwd dnsutils zip unzip wget &&\ 
     apt-get clean all
 
 RUN pip3 install requests 
