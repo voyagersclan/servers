@@ -103,15 +103,32 @@ function drive_sync_main()
     #### END - Check if Backup has occurred within 24 hours ####
     ############################################################
     
+    VARIABLE_TEMP="$SERVER_DIRECTORY/temp"
+    VARIABLE_SERVER_TEMP="$VARIABLE_TEMP/server"
+
+    VARIABLE_SERVER="$SERVER_DIRECTORY/server"
+    VARIABLE_SERVER_TAR_GZ="$SERVER_DIRECTORY/server.tar.gz"
+
     cd "$SERVER_DIRECTORY"
 
-    # archive server directory
-    echo "Removing Old Server Tar..."
-    rm -f $SERVER_DIRECTORY/server.tar.gz
-    echo "Creating New Server Tar..."
-    tar -zcf $SERVER_DIRECTORY/server.tar.gz server/
+    echo "[Google Drive] Removing Old $VARIABLE_SERVER_TAR_GZ..."
+    rm -f "$VARIABLE_SERVER_TAR_GZ"
+    
+    echo "[Google Drive] Removing Old $VARIABLE_TEMP..."
+    rm -Rf "$VARIABLE_TEMP"
 
-    server_start
+    echo "[Google Drive] Creating new $VARIABLE_TEMP..."
+    mkdir -p "$VARIABLE_TEMP"
+
+    echo "[Google Drive] Copying $VARIABLE_SERVER to $VARIABLE_SERVER_TEMP ..."
+    cp -R "$VARIABLE_SERVER" "$VARIABLE_SERVER_TEMP"
+
+    echo "[Google Drive] Starting Server Back Up ..."
+    server_start &
+
+    echo "[Google Drive] Creating New $VARIABLE_SERVER_TAR_GZ from $VARIABLE_TEMP..."
+    cd "$VARIABLE_TEMP"
+    tar -zcf "$VARIABLE_SERVER_TAR_GZ" server/
 
     cd "$SERVER_DIRECTORY"
 
@@ -131,7 +148,7 @@ function drive_sync_main()
     DATE_STAMP=`date "+%Y-%m-%d-%H_%M"`
 
     echo "Copying Server Tar to Timestamped Archive..."
-    cp $SERVER_DIRECTORY/server.tar.gz $SERVER_DIRECTORY/backup/server_$DATE_STAMP.tar.gz
+    cp $VARIABLE_SERVER_TAR_GZ $SERVER_DIRECTORY/backup/server_$DATE_STAMP.tar.gz
     
     if [ -f "/opt/.drive_enabled" ] 
     then 
