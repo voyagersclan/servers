@@ -137,7 +137,7 @@ fi
 ############################################################################
 
 if [ "$(docker ps -aq -f name=$CONTAINER_NAME)" ]; then
-    VARIABLE_START_FRESH=$(promptFunction "[Docker][WARNING] Do you want to Kill, Stop, and Remove the Current Container for $CONTAINER_NAME? This will delete all data in the container that has not been backed up to the cloud. (Y for Delete) (N for Keep)" "y" "10")
+    VARIABLE_START_FRESH=$(promptFunction "[Docker][WARNING] Do you want to Kill, Stop, and Remove the Current Container for $CONTAINER_NAME? This will delete all data in the container that has not been backed up to the cloud. (Y for Delete) (N for Keep)" "n" "10")
 
     if [ "$VARIABLE_START_FRESH" = "TRUE" ]
     then
