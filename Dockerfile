@@ -90,7 +90,10 @@ RUN mkdir /opt/vscode  &&\
 
 #Install Node JS
 RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash - &&\
-    apt-get install -y nodejs npm
+    apt-get install -y nodejs
+    
+# apt-get install -y nodejs npm
+#TODO npm is no longer compatible with nodejs in the same command and I have no time to figure it out right now
 
 #Install AWS CLI
 RUN curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" &&\
