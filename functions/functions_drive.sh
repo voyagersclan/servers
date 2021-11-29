@@ -8,7 +8,6 @@ function setupDrive()
     then
         touch /opt/.drive_enabled
 
-
         if [ ! -d "/opt/.gd" ]         
         then
             echo "[Google Drive] Initializing Drive Functionality..."
@@ -50,11 +49,32 @@ function server_start()
     echo "[Drive][ERROR] If you are seeing this message the server_start function has not been implemented on one of the main_servername.sh scripts"
 }
 
+function drive_sync_reauth()
+{
+    VARIABLE_GOOGLE_DRIVE_REAUTHORIZE=$(promptFunction "[Google Drive] Re-Authorize Google Drive?" "n" "10")
+
+    if [ "$VARIABLE_GOOGLE_DRIVE_REAUTHORIZE" = "TRUE" ]
+        drive deinit /opt
+        drive init /opt
+    fi
+}
+
+function drive_sync_main_prompt()
+{
+    VARIABLE_GOOGLE_DRIVE_DO_BACKUP=$(promptFunction "[Google Drive] Backup to Google Drive?" "n" "10")
+
+    if [ "$VARIABLE_GOOGLE_DRIVE_DO_BACKUP" = "TRUE" ]
+        drive_sync_main
+    fi
+}
+
 function drive_sync_main()
 {
     server_stop
 
     syncWriteCacheToDisk
+
+    drive_sync_reauth
 
     cd "$SERVER_DIRECTORY"
 
