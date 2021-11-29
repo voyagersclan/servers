@@ -59,28 +59,48 @@ function drive_sync_reauth()
     fi
 }
 
-function drive_sync_main_prompt()
-{
-    VARIABLE_GOOGLE_DRIVE_DO_BACKUP=$(promptFunction "[Google Drive] Backup to Google Drive?" "n" "10")
-
-    if [ "$VARIABLE_GOOGLE_DRIVE_DO_BACKUP" = "TRUE" ]
-    then
-        drive_sync_main
-    fi
-}
-
 export -f drive_sync_reauth
 
 function drive_sync_main()
 {
+    echo "[Google Drive] Prompting for Optional Re-Auth ..."
+    drive_sync_reauth
+
+    ##############################################################
+    #### BEGIN - Check if Backup has occurred within 24 hours ####
+    ##############################################################
+
+    VARIABLE_BACKED_UP_RECENTLY="/opt/.drive_last_backup_time"
+    VARIABLE_BACKED_UP_MINUTES_MAXIMUM="1440" # 60 minutes * 24 hours = 1440 minutes
+
+    # If the File Doesn't exist then chances are this is a fresh server instance with no need for backups
+    if [ ! -f "$VARIABLE_BACKED_UP_RECENTLY" ] 
+    then
+        touch "$VARIABLE_BACKED_UP_RECENTLY"
+        chmod 777 "$VARIABLE_BACKED_UP_RECENTLY"
+        echo "Easter Egg 4 U!" > "$VARIABLE_BACKED_UP_RECENTLY"
+        echo "Thanks for learning my implementation!" >> "$VARIABLE_BACKED_UP_RECENTLY"
+    fi
+
+    if test "`find $VARIABLE_BACKED_UP_RECENTLY -mmin +$VARIABLE_BACKED_UP_MINUTES_MAXIMUM`"
+    then
+        echo "[Google Drive] [Backing Up] Last Backup Time is Greater than $VARIABLE_BACKED_UP_MINUTES_MAXIMUM Minutes - Backing up!"
+        echo "Easter Egg 4 U!" > "$VARIABLE_BACKED_UP_RECENTLY"
+        echo "Thanks for learning my implementation!" >> "$VARIABLE_BACKED_UP_RECENTLY"
+    else
+        echo "[Google Drive] [Skipping] Last Backup Time is Less than $VARIABLE_BACKED_UP_MINUTES_MAXIMUM Minutes - Skipping!"
+        return
+    fi
+
+    ############################################################
+    #### END - Check if Backup has occurred within 24 hours ####
+    ############################################################
+
     echo "[Google Drive] Stopping Server ..."
     server_stop
 
     echo "[Google Drive] Syncing Write Cache to Disk ..."
     syncWriteCacheToDisk
-
-    echo "[Google Drive] Prompting for Optional Re-Auth ..."
-    drive_sync_reauth
     
     cd "$SERVER_DIRECTORY"
 
