@@ -124,7 +124,7 @@ function drive_sync_main()
     echo "[Google Drive] Starting Server Back Up ..."
     server_start &
 
-    echo "[Google Drive] Creating New $VARIABLE_SERVER_TAR_GZ from $VARIABLE_TEMP..."
+    echo "[Google Drive] Creating New $VARIABLE_SERVER_TAR_GZ from $VARIABLE_TEMP/server..."
     cd "$VARIABLE_TEMP"
     tar -zcf "$VARIABLE_SERVER_TAR_GZ" server/
 
