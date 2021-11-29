@@ -18,6 +18,6 @@ do
     echo "[CONTAINER][$CONTAINER_NAME] Restarting... "
     docker restart $CONTAINER_NAME
 
-    docker logs -f $CONTAINER_NAME
+    # docker logs -f $CONTAINER_NAME
 done
 
