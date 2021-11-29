@@ -63,6 +63,7 @@ function main()
         source ~/.main/main_discord_server_bot.sh
     fi 
 
+    source ~/.functions/functions_drive.sh
     drive_sync_main_prompt
 
     server_start
