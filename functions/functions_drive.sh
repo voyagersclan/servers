@@ -113,15 +113,13 @@ function drive_sync_main()
 
     echo "[Google Drive] Removing Old $VARIABLE_SERVER_TAR_GZ..."
     rm -f "$VARIABLE_SERVER_TAR_GZ"
-    
-    echo "[Google Drive] Removing Old $VARIABLE_TEMP..."
-    rm -Rf "$VARIABLE_TEMP"
 
-    echo "[Google Drive] Creating new $VARIABLE_TEMP..."
+    echo "[Google Drive] Creating new $VARIABLE_TEMP if it doesn't exist..."
     mkdir -p "$VARIABLE_TEMP"
+    mkdir -p "$VARIABLE_SERVER_TEMP"
 
     echo "[Google Drive] Copying $VARIABLE_SERVER to $VARIABLE_SERVER_TEMP ..."
-    cp -R "$VARIABLE_SERVER" "$VARIABLE_SERVER_TEMP"
+    rsync -avu --delete "$VARIABLE_SERVER/" "$VARIABLE_SERVER_TEMP"
 
     echo "[Google Drive] Starting Server Back Up ..."
     server_start &
