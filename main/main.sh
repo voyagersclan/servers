@@ -63,21 +63,23 @@ function main()
         source ~/.main/main_discord_server_bot.sh
     fi 
 
+    drive_sync_main_prompt
+
     server_start
 
-    if [ "$DO_WHILE_LOOP" = "TRUE" ]
-    then 
-        while :
-        do
-            if [ $(date '+%H%M') = '0600' ]
-            then 
-                echo "Doing Drive Sync..."
-                drive_sync_main
-            fi
+    # if [ "$DO_WHILE_LOOP" = "TRUE" ]
+    # then 
+    #     while :
+    #     do
+    #         if [ $(date '+%H%M') = '0600' ]
+    #         then 
+    #             echo "Doing Drive Sync..."
+    #             drive_sync_main
+    #         fi
 
-            sleep 30
-        done
-    fi
+    #         sleep 30
+    #     done
+    # fi
 }
 
 main "TRUE"
