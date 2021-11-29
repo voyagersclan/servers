@@ -66,6 +66,12 @@ function drive_sync_main()
     echo "[Google Drive] Prompting for Optional Re-Auth ..."
     drive_sync_reauth
 
+    echo "[Google Drive] Stopping Server ..."
+    server_stop
+
+    echo "[Google Drive] Syncing Write Cache to Disk ..."
+    syncWriteCacheToDisk
+
     ##############################################################
     #### BEGIN - Check if Backup has occurred within 24 hours ####
     ##############################################################
@@ -89,18 +95,13 @@ function drive_sync_main()
         echo "Thanks for learning my implementation!" >> "$VARIABLE_BACKED_UP_RECENTLY"
     else
         echo "[Google Drive] [Skipping] Last Backup Time is Less than $VARIABLE_BACKED_UP_MINUTES_MAXIMUM Minutes - Skipping!"
+        server_start
         return
     fi
 
     ############################################################
     #### END - Check if Backup has occurred within 24 hours ####
     ############################################################
-
-    echo "[Google Drive] Stopping Server ..."
-    server_stop
-
-    echo "[Google Drive] Syncing Write Cache to Disk ..."
-    syncWriteCacheToDisk
     
     cd "$SERVER_DIRECTORY"
 
