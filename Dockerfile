@@ -89,7 +89,7 @@ RUN mkdir /opt/vscode  &&\
     chmod -R 755 /opt/vscode
 
 #Install Node JS
-RUN curl -fsSL https://deb.nodesource.com/setup_15.x | bash - &&\
+RUN curl -fsSL https://deb.nodesource.com/setup_17.x | bash - &&\
     apt-get install -y nodejs npm
 
 #Install AWS CLI
