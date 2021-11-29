@@ -128,41 +128,23 @@ function drive_sync_main()
     cd "$VARIABLE_TEMP"
     tar -zcf "$VARIABLE_SERVER_TAR_GZ" server/
 
-    cd "$SERVER_DIRECTORY"
-
     if [ -f "/opt/.drive_enabled" ] 
     then 
         # push archive to drive
-        echo "Deleting Old Server Tar from Drive..."
+        echo "[Google Drive] Deleting Old Server Tar from Drive..."
+        cd "$SERVER_DIRECTORY"
         drive trash -quiet server.tar.gz
-        echo "Pushing New Server Tar to Drive..."
+        echo "[Google Drive] Pushing New Server Tar to Drive..."
         drive push -no-prompt -quiet server.tar.gz
     fi
 
-    #Backup magic
-    mkdir $SERVER_DIRECTORY/backup
-    cd $SERVER_DIRECTORY/backup
-
-    DATE_STAMP=`date "+%Y-%m-%d-%H_%M"`
-
-    echo "Copying Server Tar to Timestamped Archive..."
-    cp $VARIABLE_SERVER_TAR_GZ $SERVER_DIRECTORY/backup/server_$DATE_STAMP.tar.gz
-    
     if [ -f "/opt/.drive_enabled" ] 
     then 
-        echo "Pushing Timestamped Server Archive to Drive..."
-        drive push -no-prompt -quiet server_$DATE_STAMP.tar.gz
+        echo "[Google Drive] Copying Timestamped Server Archive to Drive Backup Folder Remotely..."
+        cd "$SERVER_DIRECTORY"
+        DATE_STAMP=`date "+%Y-%m-%d-%H_%M"`
+        drive copy "./server.tar.gz" "./backup/server_$DATE_STAMP.tar.gz"
     fi
-
-    #Delete backups older than 60 days
-    echo "Deleting Backups Older Than 60 Days..."
-
-    if [ -f "/opt/.drive_enabled" ] 
-    then 
-        find $SERVER_DIRECTORY/backup -type f -mtime +60 -exec drive trash -quiet '{}' \;
-    fi
-
-    find $SERVER_DIRECTORY/backup -type f -mtime +60 -delete 
 }
 
 export -f drive_sync_main
