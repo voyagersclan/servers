@@ -54,6 +54,7 @@ function drive_sync_reauth()
     VARIABLE_GOOGLE_DRIVE_REAUTHORIZE=$(promptFunction "[Google Drive] Re-Authorize Google Drive?" "n" "10")
 
     if [ "$VARIABLE_GOOGLE_DRIVE_REAUTHORIZE" = "TRUE" ]
+    then
         drive deinit /opt
         drive init /opt
     fi
@@ -64,6 +65,7 @@ function drive_sync_main_prompt()
     VARIABLE_GOOGLE_DRIVE_DO_BACKUP=$(promptFunction "[Google Drive] Backup to Google Drive?" "n" "10")
 
     if [ "$VARIABLE_GOOGLE_DRIVE_DO_BACKUP" = "TRUE" ]
+    then
         drive_sync_main
     fi
 }
